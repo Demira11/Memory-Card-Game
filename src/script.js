@@ -3,6 +3,7 @@ const gameGrid = [...animals, ...animals].sort(() => 0.5 - Math.random());
 let firstCard = null;
 let secondCard = null;
 const memoryGame = document.getElementById('memory-game');
+const restartButton = document.querySelector('.restart-button');
 
 function createCard(animal, index) {
     const card = document.createElement('div');
@@ -40,32 +41,31 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-    resetBoard();
+    resetCards();
 }
 
 function unflipCards() {
     setTimeout(() => {
         firstCard.classList.remove('flipped');
         secondCard.classList.remove('flipped');
-        resetBoard();
-    }, 1000); 
+        resetCards();
+    }, 1000);
 }
 
-function resetBoard() {
-    [firstCard, secondCard] = [null, null];
+function resetCards() {
+    firstCard = null;
+    secondCard = null;
 }
 
 function restartGame() {
-    gameGrid.sort(() => 0.5 - Math.random());
-    memoryGame.innerHTML = '';
-    initGame();
+    // Logic to reset the game (if needed)
+    // ...
 }
 
-function initGame() {
-    gameGrid.forEach((animal, index) => {
-        const card = createCard(animal, index);
-        memoryGame.appendChild(card);
-    });
-}
+restartButton.addEventListener('click', restartGame);
 
-initGame();
+// Initialize the game grid
+gameGrid.forEach((animal, index) => {
+    const card = createCard(animal, index);
+    memoryGame.appendChild(card);
+});
