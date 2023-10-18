@@ -1,9 +1,9 @@
-const animals = ['🐿️', '🐪', '🐈', '🐙', '🐝', '🦊', '🐸', '🐼'];
-const gameGrid = [...animals, ...animals].sort(() => 0.5 - Math.random());
+const animals = ['🐿️', '🐪', '🐈', '🐙', '🐝', '🦊', '🐸', '🦍'];
+const gameGrid = animals.concat(animals).sort(() => 0.5 - Math.random());
 let firstCard = null;
 let secondCard = null;
+
 const memoryGame = document.getElementById('memory-game');
-const restartButton = document.querySelector('.restart-button');
 
 function createCard(animal, index) {
     const card = document.createElement('div');
@@ -11,10 +11,15 @@ function createCard(animal, index) {
     card.dataset.animal = animal;
     card.dataset.index = index;
 
-    card.innerHTML = `
-        <div class="front-face">?</div>
-        <div class="back-face">${animal}</div>
-    `;
+    const frontFace = document.createElement('div');
+    frontFace.classList.add('front-face');
+    frontFace.textContent = '?';
+    card.appendChild(frontFace);
+
+    const backFace = document.createElement('div');
+    backFace.classList.add('back-face');
+    backFace.textContent = animal;
+    card.appendChild(backFace);
 
     card.addEventListener('click', flipCard);
     return card;
@@ -22,6 +27,7 @@ function createCard(animal, index) {
 
 function flipCard() {
     if (this === firstCard) return;
+
     this.classList.add('flipped');
 
     if (!firstCard) {
@@ -41,31 +47,32 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-    resetCards();
+    resetBoard();
 }
 
 function unflipCards() {
     setTimeout(() => {
         firstCard.classList.remove('flipped');
         secondCard.classList.remove('flipped');
-        resetCards();
-    }, 1000);
+        resetBoard();
+    }, 1000); // Delay set to 1000 milliseconds (1 second)
 }
 
-function resetCards() {
-    firstCard = null;
-    secondCard = null;
+function resetBoard() {
+    [firstCard, secondCard] = [null, null];
 }
 
 function restartGame() {
-    // Logic to reset the game (if needed)
-    // ...
+    gameGrid.sort(() => 0.5 - Math.random());
+    memoryGame.innerHTML = '';
+    initGame();
 }
 
-restartButton.addEventListener('click', restartGame);
+function initGame() {
+    gameGrid.forEach((animal, index) => {
+        const card = createCard(animal, index);
+        memoryGame.appendChild(card);
+    });
+}
 
-// Initialize the game grid
-gameGrid.forEach((animal, index) => {
-    const card = createCard(animal, index);
-    memoryGame.appendChild(card);
-});
+initGame();
