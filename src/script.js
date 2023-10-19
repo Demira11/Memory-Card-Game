@@ -26,7 +26,7 @@ function createCard(animal, index) {
 }
 
 function flipCard() {
-    if (this === firstCard) return;;
+    if (this === firstCard) return;
 
     this.classList.add('flipped');
 
