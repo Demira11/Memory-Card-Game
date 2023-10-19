@@ -1,4 +1,4 @@
-const animals = ['🐿️', '🐪', '🐈', '🐙', '🐝', '🦊', '🐸', '🦍'];
+const animals = ['🐿️', '🐪', '🐈', '🐙', '🐝', '🦇', '🐸', '🦍'];
 const gameGrid = animals.concat(animals).sort(() => 0.5 - Math.random());
 let firstCard = null;
 let secondCard = null;
@@ -26,7 +26,7 @@ function createCard(animal, index) {
 }
 
 function flipCard() {
-    if (this === firstCard) return;
+    if (this === firstCard) return;;
 
     this.classList.add('flipped');
 
